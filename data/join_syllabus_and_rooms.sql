@@ -1,0 +1,5 @@
+CREATE TABLE syllabus_base_info_splited_by_day_and_period_join_classroom_allocation AS
+SELECT *
+FROM syllabus_base_info_splited_by_day_and_period
+LEFT JOIN classroom_allocation
+ON syllabus_base_info_splited_by_day_and_period.lecture_id = classroom_allocation.lecture_id;
