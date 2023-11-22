@@ -1,5 +1,19 @@
 CREATE TABLE syllabus_base_info_splited_by_day_and_period_join_classroom_allocation AS
-SELECT *
+SELECT 
+  syllabus_base_info_splited_by_day_and_period.year,
+  syllabus_base_info_splited_by_day_and_period.season,
+  syllabus_base_info_splited_by_day_and_period.day,
+  syllabus_base_info_splited_by_day_and_period.period,
+  syllabus_base_info_splited_by_day_and_period.teacher,
+  syllabus_base_info_splited_by_day_and_period.name,
+  syllabus_base_info_splited_by_day_and_period.lecture_id,
+  syllabus_base_info_splited_by_day_and_period.credits,
+  syllabus_base_info_splited_by_day_and_period.url,
+  syllabus_base_info_splited_by_day_and_period.type,
+  syllabus_base_info_splited_by_day_and_period.faculty,
+  classroom_allocation.campus,
+  classroom_allocation.building,
+  classroom_allocation.room_id
 FROM syllabus_base_info_splited_by_day_and_period
 LEFT JOIN classroom_allocation
 ON syllabus_base_info_splited_by_day_and_period.lecture_id = classroom_allocation.lecture_id;

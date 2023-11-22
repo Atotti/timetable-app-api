@@ -17,9 +17,9 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# SQLAlchemyモデルの定義
-class SyllabusBaseInfo(Base):
-    __tablename__ = "syllabus_base_info"
+# SQLAlchemyモデルの定義(ORMのモデル定義)
+class SyllabusBaseInfoSplitedByDayAndPeriodJoinClassroomAllocation(Base):
+    __tablename__ = "syllabus_base_info_splited_by_day_and_period_join_classroom_allocation"
 
     year = Column(Integer)
     season = Column(String)
@@ -32,6 +32,9 @@ class SyllabusBaseInfo(Base):
     url = Column(String)
     type = Column(String)
     faculty = Column(String)
+    campus = Column(String)
+    building = Column(String)
+    room_id = Column(String)
 
 # db向けの曜日と時限のマッピング
 day_map = {1:"月", 2:"火", 3:"水", 4:"木", 5:"金"}
@@ -55,8 +58,7 @@ app.add_middleware(
     allow_headers=["*"],  # すべてのHTTPヘッダーを許可
 )
 
-# 授業情報のモデル
-# 授業情報のモデル
+# 授業情報のモデル(fastAPIのjsonの定義)
 class ClassInfo(BaseModel):
     year: Optional[int]
     season: Optional[str]
@@ -69,6 +71,9 @@ class ClassInfo(BaseModel):
     url: Optional[str]
     type: Optional[str]
     faculty: Optional[str]
+    campus: Optional[str]
+    building: Optional[str]
+    room_id: Optional[str]
 
 # 戻り値向けマッピング
 day_map2 = {"月":1, "火":2, "水":3, "木":4, "金":5}
@@ -85,7 +90,7 @@ def period_map2_func(x):
 # 指定された曜日と時限に開講されている授業を取得するAPIエンドポイント
 @app.get("/classes/{day}/{period}", response_model=List[ClassInfo])
 async def get_classes_by_day_and_period(day: int, period: int, db: Session = Depends(get_db)):
-    filtered_classes = db.query(SyllabusBaseInfo).filter(SyllabusBaseInfo.day == day_map[day], SyllabusBaseInfo.period == period_map[period]).all()
+    filtered_classes = db.query(SyllabusBaseInfoSplitedByDayAndPeriodJoinClassroomAllocation).filter(SyllabusBaseInfoSplitedByDayAndPeriodJoinClassroomAllocation.day == day_map[day], SyllabusBaseInfoSplitedByDayAndPeriodJoinClassroomAllocation.period == period_map[period]).all()
     filtered_classes = list(map(day_map2_func, filtered_classes))
     filtered_classes = list(map(period_map2_func, filtered_classes))
     
