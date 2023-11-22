@@ -7,14 +7,14 @@ import sqlite3
 import csv
 
 def create_tables(cur):
-    with open("data/table_settings.sql", "r", encoding="utf-8") as stgfile:
+    with open("../data/table_settings.sql", "r", encoding="utf-8") as stgfile:
         sqlstr=stgfile.read()
         cur.executescript(sqlstr)
     return cur.fetchall()
 
 def insert_lecture_rooms(cur):
     # CSVファイルを開く
-    with open('data/lecture_rooms.csv', 'r', encoding="utf-8") as csv_file:
+    with open('../data/lecture_rooms.csv', 'r', encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file)
         next(csv_reader)
 
@@ -24,7 +24,7 @@ def insert_lecture_rooms(cur):
 
 def insert_classroom_allocation(cur):
     # CSVファイルを開く
-    with open('data/classroom_allocation.csv', 'r', encoding="utf-8") as csv_file:
+    with open('../data/classroom_allocation.csv', 'r', encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file)
         next(csv_reader)
 
@@ -34,7 +34,7 @@ def insert_classroom_allocation(cur):
 
 def insert_syllabus_base_info(cur):
     # CSVファイルを開く
-    with open('data/syllabus_base_info.tsv', 'r', encoding="utf-8") as csv_file:
+    with open('../data/syllabus_base_info.tsv', 'r', encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter='\t')
         next(csv_reader)
 
@@ -44,7 +44,7 @@ def insert_syllabus_base_info(cur):
 
 def insert_syllabus_base_info_splited_by_day_and_period(cur):
     # CSVファイルを開く
-    with open('data/syllabus_base_info_splited_by_day_and_period.tsv', 'r', encoding="utf-8") as csv_file:
+    with open('../data/syllabus_base_info_splited_by_day_and_period.tsv', 'r', encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter='\t')
         next(csv_reader)
 
