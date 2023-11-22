@@ -5,7 +5,7 @@ day_set = {"他", "月", "火", "水", "木", "金"}
 
 data = list()
 
-with open('data/syllabus_base_info.tsv', 'r', encoding="utf-8") as csv_file:
+with open('../data/syllabus_base_info.tsv', 'r', encoding="utf-8") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter='\t')
     next(csv_reader)
     for row in csv_reader:
@@ -21,7 +21,7 @@ with open('data/syllabus_base_info.tsv', 'r', encoding="utf-8") as csv_file:
                 data.append(row_tmp)
         else:
             data.append(row)
-with open("data/syllabus_base_info_splited_by_day_and_period.tsv", "w", encoding="utf-8") as f:
+with open("../data/syllabus_base_info_splited_by_day_and_period.tsv", "w", encoding="utf-8") as f:
     for d in data:
         f.write("\t".join(d))
         f.write("\n")
