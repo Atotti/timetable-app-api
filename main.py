@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from typing import List
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 from typing import Optional
 from pydantic import BaseModel
+from src.gen_problem import gen_problem
 
 # データベース接続
 SQLALCHEMY_DATABASE_URL = "sqlite:///./sqlite3.db"
@@ -96,4 +97,16 @@ async def get_classes_by_day_and_period(day: int, period: int, db: Session = Dep
     
     return filtered_classes
 
+class ProblemRequest(BaseModel):
+    content: str
+
+@app.post("/knowfill")
+async def my_api(request: ProblemRequest):
+    try:
+        result = gen_problem(request.content)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # uvicorn main:app --reload
+# 本番環境: uvicorn main:app --host 0.0.0.0 --port 8000
