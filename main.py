@@ -54,6 +54,8 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # Reactアプリのオリジンを許可
+    allow_origins=["https://portfolio.ayutaso.com"],
+    allow_origins=["https://timetable.ayutaso.com"],
     allow_credentials=True,
     allow_methods=["*"],  # すべてのHTTPメソッドを許可
     allow_headers=["*"],  # すべてのHTTPヘッダーを許可
